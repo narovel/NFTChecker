@@ -32,8 +32,12 @@ async function checkNFT(web3, contractAddress, ownerAddress, tokenId) {
 	}
 ]; // Substitua isso pela ABI do seu contrato
     //console.log(web3.eth);
-    const contract = new web3.eth.Contract(abi, 0x8024489C6Bd033b213B464865F8b19aa427515e8);
-	//console.log(contract);
-    const result = await contract.methods.checkNFT(NFTContractAddress, ownerAddress, tokenId).call();
-    return result;
+    if (web3 && web3.eth) {
+        const contract = new web3.eth.Contract(abi, 0x8024489C6Bd033b213B464865F8b19aa427515e8);
+        //console.log(contract);
+        const result = await contract.methods.checkNFT(NFTContractAddress, ownerAddress, tokenId).call();
+        return result;
+    } else {
+        console.error('Web3 is not defined. Please check your connection and try again.');
+    }
 }
