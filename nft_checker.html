@@ -24,7 +24,7 @@
                     // Request account access if needed
                     await ethereum.request({ method: 'eth_requestAccounts' });
                     // Accounts now exposed
-                    ethereum.sendTransaction({/* ... */});
+                    ethereum.send('eth_sendTransaction', [{/* ... */}]); // Use o método 'eth_sendTransaction' ou o método específico desejado
                 } catch (error) {
                     // User denied account access...
                     console.error('Erro ao solicitar acesso à conta MetaMask:', error);
@@ -34,13 +34,13 @@
             else if (window.web3) {
                 window.web3 = new Web3(web3.currentProvider);
                 // Accounts always exposed
-                ethereum.send('eth_sendTransaction', [{/* ... */}]);
+                web3.eth.sendTransaction({/* ... */});
             }
             // Non-dapp browsers...
             else {
                 console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
             }
-});
+        });
             
 
         connectWalletButton.addEventListener('click', async () => {
