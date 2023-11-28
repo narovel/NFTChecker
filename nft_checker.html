@@ -55,7 +55,7 @@
             const contractAddress = document.getElementById('contractAddress').value;
             const tokenId = document.getElementById('tokenId').value;
             // const result = await checkNFT(window.web3, contractAddress, userAddress, tokenId); 
-            const result = await contract.methods.checkNFT(contractAddress, userAddress, tokenId).call();
+            const result = await contract.methods.checkNFTButton(contractAddress, userAddress, tokenId).call();
             console.log(result);
         });
     </script>
