@@ -597,7 +597,7 @@ const verificarNFT = async () => {
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]
+];
 	// Crie a instância do contrato ERC-721
         const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
