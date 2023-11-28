@@ -18,9 +18,9 @@ const verificarNFT = async () => {
         const conta = contas[0];
 
 	// Defina a ABI do seu contrato ERC-721
-        const abiContratoNFT = 
-		
-		[
+        const abiContratoNFT = [
+
+	[
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -597,7 +597,10 @@ const verificarNFT = async () => {
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
+]
+
+	];
+		
 	// Crie a instância do contrato ERC-721
         const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
