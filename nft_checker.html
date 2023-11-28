@@ -22,7 +22,7 @@
                 window.web3 = new Web3(ethereum);
                 try {
                     // Request account access if needed
-                    await ethereum.enable();
+                    await ethereum.request({ method: 'eth_requestAccounts' });
                     // Acccounts now exposed
                     web3.eth.sendTransaction({/* ... */});
                 } catch (error) {
@@ -41,7 +41,15 @@
             }
         });
 
-
+        connectWalletButton.addEventListener('click', async () => {
+            try {
+                // Request account access
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                userAddress = accounts[0];
+            } catch (error) {
+                console.error("Erro ao conectar a carteira: ", error);
+            }
+        });
 
         checkNFTButton.addEventListener('click', async () => {
             const contractAddress = document.getElementById('contractAddress').value;
