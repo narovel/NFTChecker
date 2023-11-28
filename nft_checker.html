@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verificador de NFT</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+</head>
+<body>
+    <button id="connectWalletButton">Conectar Carteira</button>
+    <input type="text" id="contractAddress" placeholder="Endereço do Contrato">
+    <input type="text" id="tokenId" placeholder="ID do Token">
+    <button id="checkNFTButton">Verificar NFT</button>
+    <script src="checkNFT.js"></script>
+    <script>
+        const connectWalletButton = document.getElementById('connectWalletButton');
+        const checkNFTButton = document.getElementById('checkNFTButton');
+        let web3;
+        let userAddress;
+
+        connectWalletButton.addEventListener('click', async () => {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.enable();
+                    const accounts = await web3.eth.getAccounts();
+                    userAddress = accounts[0];
+                } catch (error) {
+                    console.error("Usuário recusou a conexão com a carteira");
+                }
+            } else {
+                console.log('Instale MetaMask!');
+            }
+        });
+
+        checkNFTButton.addEventListener('click', async () => {
+            const contractAddress = document.getElementById('contractAddress').value;
+            const tokenId = document.getElementById('tokenId').value;
+            const result = await checkNFT(web3, contractAddress, userAddress, tokenId);
+            console.log(result);
+        });
+    </script>
+</body>
+</html>
