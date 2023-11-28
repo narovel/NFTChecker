@@ -16,20 +16,31 @@
         let web3;
         let userAddress;
 
-        connectWalletButton.addEventListener('click', async () => {
+        window.addEventListener('load', async () => {
+            // Modern dapp browsers...
             if (window.ethereum) {
-                web3 = new Web3(window.ethereum);
+                window.web3 = new Web3(ethereum);
                 try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const accounts = await web3.eth.getAccounts();
-                    userAddress = accounts[0];
+                    // Request account access if needed
+                    await ethereum.enable();
+                    // Acccounts now exposed
+                    web3.eth.sendTransaction({/* ... */});
                 } catch (error) {
-                    console.error("Usuário recusou a conexão com a carteira");
+                    // User denied account access...
                 }
-            } else {
-                console.log('Instale MetaMask!');
+            }
+            // Legacy dapp browsers...
+            else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                // Acccounts always exposed
+                web3.eth.sendTransaction({/* ... */});
+            }
+            // Non-dapp browsers...
+            else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
             }
         });
+
 
 
         checkNFTButton.addEventListener('click', async () => {
