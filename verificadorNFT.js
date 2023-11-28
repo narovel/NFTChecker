@@ -1,5 +1,5 @@
 // Defina o endereço do contrato e o ID do Token
-const contratoNFTAddress = "0x84B132701C61AB69aB907a6A204d55afb0fD18f5";
+const contratoNFTAddress = "0xCODIGOVAIAQUI";
 const tokenId = 0; // Substitua pelo ID do Token que você está verificando
 
 // Evento para atualizar a página com informações do NFT
@@ -13,25 +13,17 @@ const atualizarPagina = (imagem, nome, descricao) => {
 // Função para verificar se a conta possui o NFT
 const verificarNFT = async () => {
     try {
-        // Conectar a Metamask
-        const contas = await ethereum.request({ method: 'eth_requestAccounts' });
-        const conta = contas[0];
-
-	// Defina a ABI do seu contrato ERC-721
-        const abiContratoNFT = "ABI";
-
-		
-	// Crie a instância do contrato ERC-721
-        const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
-
-// Função para verificar a posse do NFT
-const verificarNFT = async () => {
-    try {
         // Solicitar acesso à conta MetaMask
         const contas = await ethereum.request({ method: 'eth_requestAccounts' });
         const conta = contas[0];
 
         console.log("Conta conectada:", conta);
+
+        // Defina a ABI do seu contrato ERC-721
+        const abiContratoNFT = "ABI";
+
+        // Crie a instância do contrato ERC-721
+        const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
         // Chamar a função ownerOf para verificar a posse do NFT
         const possuiNFT = await contratoNFT.methods.ownerOf(tokenId).call({ from: conta });
