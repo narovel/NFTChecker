@@ -1,4 +1,5 @@
 //console.log(web3); foi usado para testar se web3 estava definido antes de chamar a função checkNFT
+let contract;
 async function checkNFT(web3, contractAddress, ownerAddress, tokenId) {
     const abi = [
 	{
