@@ -24,7 +24,7 @@
                     // Request account access if needed
                     await ethereum.request({ method: 'eth_requestAccounts' });
                     // Accounts now exposed
-                    web3.eth.sendTransaction({/* ... */});
+                    ethereum.sendTransaction({/* ... */});
                 } catch (error) {
                     // User denied account access...
                     console.error('Erro ao solicitar acesso à conta MetaMask:', error);
@@ -38,8 +38,10 @@
             }
             // Non-dapp browsers...
             else {
-                console.log('Navegador não detectado. Considere usar o MetaMask!');
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
             }
+});
+            
         });
 
         connectWalletButton.addEventListener('click', async () => {
