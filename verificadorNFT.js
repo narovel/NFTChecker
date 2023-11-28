@@ -17,10 +17,11 @@ const verificarNFT = async () => {
         const contas = await ethereum.request({ method: 'eth_requestAccounts' });
         const conta = contas[0];
 
-        // Criar uma instância do contrato ERC-721
-        const contratoNFT = new web3.eth.Contract([
-            // ABI do ERC-721
-            [
+	// Defina a ABI do seu contrato ERC-721
+        const abiContratoNFT = 
+		
+	// fim do ABI
+		[
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -598,27 +599,33 @@ const verificarNFT = async () => {
 		"type": "function"
 	}
 ]
-            // ...
-        ], contratoNFTAddress);
+	// Crie a instância do contrato ERC-721
+        const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
-        // Verificar se a conta possui o NFT
+// Função para verificar a posse do NFT
+const verificarNFT = async () => {
+    try {
+        // Solicitar acesso à conta MetaMask
+        const contas = await ethereum.request({ method: 'eth_requestAccounts' });
+        const conta = contas[0];
+
+        console.log("Conta conectada:", conta);
+
+        // Chamar a função ownerOf para verificar a posse do NFT
         const possuiNFT = await contratoNFT.methods.ownerOf(tokenId).call({ from: conta });
 
-        if (possuiNFT === conta) {
-            // Se a conta possuir o NFT, obter informações adicionais (imagem, nome, descrição)
-            const imagem = await contratoNFT.methods.getImagem(tokenId).call({ from: conta });
-            const nome = await contratoNFT.methods.getNome(tokenId).call({ from: conta });
-            const descricao = await contratoNFT.methods.getDescricao(tokenId).call({ from: conta });
+        console.log("Possui NFT:", possuiNFT);
 
-            // Atualizar a página com as informações do NFT
-            atualizarPagina(imagem, nome, descricao);
+        // Verificar se a conta possui o NFT com o ID especificado
+        if (possuiNFT === conta) {
+            console.log("Esta conta possui o NFT com o ID:", tokenId);
         } else {
-            console.log("Esta conta não possui o NFT com o ID:", tokenId);
+            console.log("Esta conta NÃO possui o NFT com o ID:", tokenId);
         }
     } catch (error) {
         console.error("Erro ao verificar NFT:", error);
     }
 };
 
-// Adicionar um ouvinte de evento ao botão para chamar a função de verificação
-document.getElementById('connectWalletButton').addEventListener('click', verificarNFT);
+// Adicionar um ouvinte de evento ao botão de verificação
+document.getElementById('checkNFTButton').addEventListener('click', verificarNFT);
