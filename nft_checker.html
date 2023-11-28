@@ -54,7 +54,7 @@
         checkNFTButton.addEventListener('click', async () => {
             const contractAddress = document.getElementById('contractAddress').value;
             const tokenId = document.getElementById('tokenId').value;
-            const result = await checkNFT(web3, contractAddress, userAddress, tokenId);
+            const result = await checkNFT(window.web3, contractAddress, userAddress, tokenId);
             console.log(result);
         });
     </script>
