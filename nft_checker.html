@@ -23,7 +23,7 @@
                 try {
                     // Request account access if needed
                     await ethereum.request({ method: 'eth_requestAccounts' });
-                    // Acccounts now exposed
+                    // Accounts now exposed
                     web3.eth.sendTransaction({/* ... */});
                 } catch (error) {
                     // User denied account access...
@@ -32,7 +32,7 @@
             // Legacy dapp browsers...
             else if (window.web3) {
                 window.web3 = new Web3(web3.currentProvider);
-                // Acccounts always exposed
+                // Accounts always exposed
                 web3.eth.sendTransaction({/* ... */});
             }
             // Non-dapp browsers...
@@ -54,7 +54,7 @@
         checkNFTButton.addEventListener('click', async () => {
             const contractAddress = document.getElementById('contractAddress').value;
             const tokenId = document.getElementById('tokenId').value;
-            const result = await checkNFT(window.web3, contractAddress, ownerAddress, tokenId); 
+            const result = await checkNFT(web3, contractAddress, ownerAddress, tokenId);
             console.log(result);
         });
     </script>
