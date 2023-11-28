@@ -32,8 +32,8 @@ async function checkNFT(web3, contractAddress, ownerAddress, tokenId) {
 	}
 ]; // Substitua isso pela ABI do seu contrato
     //console.log(web3.eth);
-    const contract = new web3.eth.Contract(abi, contractAddress);
-	console.log(contract);
+    const contract = new web3.eth.Contract(abi, 0x8024489C6Bd033b213B464865F8b19aa427515e8);
+	//console.log(contract);
     const result = await contract.methods.checkNFT(contractAddress, ownerAddress, tokenId).call();
     return result;
 }
