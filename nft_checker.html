@@ -27,6 +27,7 @@
                     web3.eth.sendTransaction({/* ... */});
                 } catch (error) {
                     // User denied account access...
+                    console.error('Erro ao solicitar acesso à conta MetaMask:', error);
                 }
             }
             // Legacy dapp browsers...
@@ -37,7 +38,7 @@
             }
             // Non-dapp browsers...
             else {
-                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                console.log('Navegador não detectado. Considere usar o MetaMask!');
             }
         });
 
