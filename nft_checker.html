@@ -20,7 +20,7 @@
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
                 try {
-                    await window.ethereum.enable();
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
                     const accounts = await web3.eth.getAccounts();
                     userAddress = accounts[0];
                 } catch (error) {
@@ -30,6 +30,7 @@
                 console.log('Instale MetaMask!');
             }
         });
+
 
         checkNFTButton.addEventListener('click', async () => {
             const contractAddress = document.getElementById('contractAddress').value;
