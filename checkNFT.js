@@ -1,4 +1,4 @@
-console.log(web3);
+//console.log(web3); foi usado para testar se web3 estava definido antes de chamar a função checkNFT
 async function checkNFT(web3, contractAddress, ownerAddress, tokenId) {
     const abi = [
 	{
@@ -31,6 +31,7 @@ async function checkNFT(web3, contractAddress, ownerAddress, tokenId) {
 		"type": "function"
 	}
 ]; // Substitua isso pela ABI do seu contrato
+    console.log(web3.eth);
     const contract = new web3.eth.Contract(abi, contractAddress);
     const result = await contract.methods.checkNFT(contractAddress, ownerAddress, tokenId).call();
     return result;
