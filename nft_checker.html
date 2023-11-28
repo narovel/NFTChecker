@@ -34,7 +34,7 @@
             else if (window.web3) {
                 window.web3 = new Web3(web3.currentProvider);
                 // Accounts always exposed
-                web3.eth.sendTransaction({/* ... */});
+                ethereum.send('eth_sendTransaction', [{/* ... */}]);
             }
             // Non-dapp browsers...
             else {
