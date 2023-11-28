@@ -20,7 +20,6 @@ const verificarNFT = async () => {
 	// Defina a ABI do seu contrato ERC-721
         const abiContratoNFT = 
 		
-	// fim do ABI
 		[
 	{
 		"inputs": [],
