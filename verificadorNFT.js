@@ -670,6 +670,41 @@ const verificarNFT = async () => {
 ]	
 	]; // Adicione sua ABI aqui
 
+
+        // ...
+
+// Função para atualizar a interface com base na conexão da carteira
+const atualizarInterface = async () => {
+    try {
+        // Verifique se o navegador suporta Ethereum (MetaMask)
+        if (window.ethereum) {
+            // Recupere a lista de contas conectadas
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+            // Exiba ou oculte botões com base na conexão da carteira
+            if (accounts.length > 0) {
+                document.getElementById('connectWalletText').textContent = 'Carteira Conectada:';
+                document.getElementById('connectWalletButton').style.display = 'none';
+                document.getElementById('disconnectWalletButton').style.display = 'block';
+                document.getElementById('walletStatus').textContent = 'Status: Conectada';
+                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${contas[0]}`;
+            } else {
+                document.getElementById('connectWalletText').textContent = 'Conecte sua carteira:';
+                document.getElementById('connectWalletButton').style.display = 'block';
+                document.getElementById('disconnectWalletButton').style.display = 'none';
+                document.getElementById('walletStatus').textContent = 'Status: Desconectada';
+                document.getElementById('walletAddress').textContent = '';
+            }
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar interface:", error);
+    }
+};
+
+// ...
+
+	
+
         // Crie a instância do contrato ERC-721
         const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
