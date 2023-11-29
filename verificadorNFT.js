@@ -1,17 +1,45 @@
-// Defina o endereço do contrato e o ID do Token
-const contratoNFTAddress = "0x84B132701C61AB69aB907a6A204d55afb0fD18f5";
-const tokenId = 0; // Substitua pelo ID do Token que você está verificando
+// Aguarde o carregamento da página antes de iniciar
+window.addEventListener('load', async () => {
+    try {
+        // Verifique se o navegador suporta Ethereum (MetaMask)
+        if (window.ethereum) {
+            // Inicialize o Web3 com a instância do MetaMask
+            window.web3 = new Web3(ethereum);
 
-// Evento para atualizar a página com informações do NFT
-const atualizarPagina = (imagem, nome, descricao) => {
-    // Exibir a imagem, nome e descrição na página
-    console.log("Imagem:", imagem);
-    console.log("Nome:", nome);
-    console.log("Descrição:", descricao);
-};
+            // Exiba ou oculte botões e informações com base na conexão da carteira
+            atualizarInterface();
 
-// Função para verificar se a conta possui o NFT
-const verificarNFT = async () => {
+            // Adicione ouvintes de eventos aos botões
+            document.getElementById('connectWalletButton').addEventListener('click', conectarCarteira);
+            document.getElementById('disconnectWalletButton').addEventListener('click', desconectarCarteira);
+            document.getElementById('checkNFTButton').addEventListener('click', verificarNFT);
+
+            // Recupere a lista de contas conectadas
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+            // Exiba informações no console
+            console.log('MetaMask conectado:', ethereum.isConnected());
+            console.log('Contas conectadas:', accounts);
+
+            // Atualize a interface com base na conexão da carteira
+            atualizarInterface();
+
+        } else if (window.web3) {
+            // Se estiver usando uma versão mais antiga do MetaMask
+            window.web3 = new Web3(web3.currentProvider);
+
+            // Exiba informações no console
+            console.log('MetaMask (versão antiga) conectado:', web3.isConnected());
+        } else {
+            console.log('Navegador não detectado. Considere usar o MetaMask!');
+        }
+    } catch (error) {
+        console.error('Erro durante a inicialização do Web3:', error);
+    }
+});
+
+// Função para conectar a carteira
+const conectarCarteira = async () => {
     try {
         // Solicitar acesso à conta MetaMask
         const contas = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -19,9 +47,49 @@ const verificarNFT = async () => {
 
         console.log("Conta conectada:", conta);
 
-        // Defina a ABI do seu contrato ERC-721
-        const abiContratoNFT = 
+        // Atualize a interface com base na conexão da carteira
+        atualizarInterface();
 
+    } catch (error) {
+        console.error("Erro ao conectar carteira:", error);
+    }
+};
+
+// Função para desconectar a carteira
+const desconectarCarteira = async () => {
+    try {
+        // Solicitar desconexão da conta MetaMask
+        await ethereum.request({ method: 'eth_logout' });
+
+        // Atualize a interface com base na desconexão da carteira
+        atualizarInterface();
+
+    } catch (error) {
+        console.error("Erro ao desconectar carteira:", error);
+    }
+};
+
+// Função para verificar a posse do NFT
+const verificarNFT = async () => {
+    try {
+        // Verifique se há uma conta conectada
+        const contas = await ethereum.request({ method: 'eth_accounts' });
+
+        if (contas.length === 0) {
+            console.log("Nenhuma conta conectada.");
+            return;
+        }
+
+        const conta = contas[0];
+
+        console.log("Conta conectada:", conta);
+
+        // Defina o endereço do contrato e o ID do Token
+        const contratoNFTAddress = "0x84B132701C61AB69aB907a6A204d55afb0fD18f5";
+        const tokenId = 0; // Substitua pelo ID do Token que você está verificando
+
+        // Defina a ABI do seu contrato ERC-721
+        const abiContratoNFT = [
 	[
 	{
 		"inputs": [],
@@ -599,7 +667,8 @@ const verificarNFT = async () => {
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
+]	
+	]; // Adicione sua ABI aqui
 
         // Crie a instância do contrato ERC-721
         const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
@@ -612,6 +681,7 @@ const verificarNFT = async () => {
         // Verificar se a conta possui o NFT com o ID especificado
         if (possuiNFT === conta) {
             console.log("Esta conta possui o NFT com o ID:", tokenId);
+            // Aqui você pode chamar a função para atualizar a página com informações do NFT
         } else {
             console.log("Esta conta NÃO possui o NFT com o ID:", tokenId);
         }
@@ -620,5 +690,26 @@ const verificarNFT = async () => {
     }
 };
 
-// Adicionar um ouvinte de evento ao botão de verificação
-document.getElementById('checkNFTButton').addEventListener('click', verificarNFT);
+// Função para atualizar a interface com base na conexão da carteira
+const atualizarInterface = async () => {
+    try {
+        // Verifique se o navegador suporta Ethereum (MetaMask)
+        if (window.ethereum) {
+            // Recupere a lista de contas conectadas
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+            // Exiba ou oculte botões com base na conexão da carteira
+            if (accounts.length > 0) {
+                document.getElementById('connectWalletButton').style.display = 'none';
+                document.getElementById('disconnectWalletButton').style.display = 'block';
+                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${contas[0]}`;
+            } else {
+                document.getElementById('connectWalletButton').style.display = 'block';
+                document.getElementById('disconnectWalletButton').style.display = 'none';
+                document.getElementById('walletAddress').textContent = '';
+            }
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar interface:", error);
+    }
+};
