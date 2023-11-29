@@ -2,7 +2,7 @@
 window.addEventListener('load', async () => {
     try {
         // Verifique se o navegador suporta Ethereum (MetaMask)
-        if (window.ethereum) {
+        if (window.ethereum && window.ethereum.isMetaMask) {
             // Inicialize o Web3 com a instância do MetaMask
             window.web3 = new Web3(ethereum);
 
@@ -24,14 +24,8 @@ window.addEventListener('load', async () => {
             // Atualize a interface com base na conexão da carteira
             atualizarInterface();
 
-        } else if (window.web3) {
-            // Se estiver usando uma versão mais antiga do MetaMask
-            window.web3 = new Web3(web3.currentProvider);
-
-            // Exiba informações no console
-            console.log('MetaMask (versão antiga) conectado:', web3.isConnected());
         } else {
-            console.log('Navegador não detectado. Considere usar o MetaMask!');
+            console.log('MetaMask não detectado. Considere usar o MetaMask!');
         }
     } catch (error) {
         console.error('Erro durante a inicialização do Web3:', error);
@@ -61,7 +55,8 @@ const desconectarCarteira = async () => {
         // Solicitar desconexão da conta MetaMask
         await ethereum.request({ method: 'eth_logout' });
 
-
+        // Atualize a interface com base na desconexão da carteira
+        atualizarInterface();
 
     } catch (error) {
         console.error("Erro ao desconectar carteira:", error);
@@ -89,6 +84,7 @@ const verificarNFT = async () => {
 
         // Defina a ABI do seu contrato ERC-721
         const abiContratoNFT = [
+		
 	[
 	{
 		"inputs": [],
@@ -666,44 +662,14 @@ const verificarNFT = async () => {
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]	
-	]; // Adicione sua ABI aqui
-
-
-        // ...
-
-// Função para atualizar a interface com base na conexão da carteira
-const atualizarInterface = async () => {
-    try {
-        // Verifique se o navegador suporta Ethereum (MetaMask)
-        if (window.ethereum) {
-            // Recupere a lista de contas conectadas
-            const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-            // Exiba ou oculte botões com base na conexão da carteira
-            const connectWalletParagraph = document.getElementById('connectWallet');
-            if (accounts.length > 0) {
-                connectWalletParagraph.style.display = 'none';
-                document.getElementById('disconnectWalletButton').style.display = 'block';
-                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${accounts[0]}`;
-            } else {
-                connectWalletParagraph.style.display = 'block';
-                document.getElementById('disconnectWalletButton').style.display = 'none';
-                document.getElementById('walletAddress').textContent = '';
-            }
-        }
-    } catch (error) {
-        console.error("Erro ao verificar NFT:", error);
-    }
-};
-// ...
-
+]
 	
+	];
 
         // Crie a instância do contrato ERC-721
         const contratoNFT = new web3.eth.Contract(abiContratoNFT, contratoNFTAddress);
 
-        // Chamar a função ownerOf para verificar a posse do NFT
+        // Chame a função ownerOf para verificar a posse do NFT
         const possuiNFT = await contratoNFT.methods.ownerOf(tokenId).call({ from: conta });
 
         console.log("Possui NFT:", possuiNFT);
@@ -724,7 +690,7 @@ const atualizarInterface = async () => {
 const atualizarInterface = async () => {
     try {
         // Verifique se o navegador suporta Ethereum (MetaMask)
-        if (window.ethereum) {
+        if (window.ethereum && window.ethereum.isMetaMask) {
             // Recupere a lista de contas conectadas
             const accounts = await ethereum.request({ method: 'eth_accounts' });
 
@@ -732,7 +698,7 @@ const atualizarInterface = async () => {
             if (accounts.length > 0) {
                 document.getElementById('connectWalletButton').style.display = 'none';
                 document.getElementById('disconnectWalletButton').style.display = 'block';
-                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${contas[0]}`;
+                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${accounts[0]}`;
             } else {
                 document.getElementById('connectWalletButton').style.display = 'block';
                 document.getElementById('disconnectWalletButton').style.display = 'none';
