@@ -1,5 +1,5 @@
 // Defina o endereço do contrato e o ID do Token
-const contratoNFTAddress = "0xCODIGOVAIAQUI";
+const contratoNFTAddress = "0x84B132701C61AB69aB907a6A204d55afb0fD18f5";
 const tokenId = 0; // Substitua pelo ID do Token que você está verificando
 
 // Evento para atualizar a página com informações do NFT
