@@ -61,8 +61,7 @@ const desconectarCarteira = async () => {
         // Solicitar desconexão da conta MetaMask
         await ethereum.request({ method: 'eth_logout' });
 
-        // Atualize a interface com base na desconexão da carteira
-        atualizarInterface();
+
 
     } catch (error) {
         console.error("Erro ao desconectar carteira:", error);
@@ -682,25 +681,21 @@ const atualizarInterface = async () => {
             const accounts = await ethereum.request({ method: 'eth_accounts' });
 
             // Exiba ou oculte botões com base na conexão da carteira
+            const connectWalletParagraph = document.getElementById('connectWallet');
             if (accounts.length > 0) {
-                document.getElementById('connectWalletText').textContent = 'Carteira Conectada:';
-                document.getElementById('connectWalletButton').style.display = 'none';
+                connectWalletParagraph.style.display = 'none';
                 document.getElementById('disconnectWalletButton').style.display = 'block';
-                document.getElementById('walletStatus').textContent = 'Status: Conectada';
-                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${contas[0]}`;
+                document.getElementById('walletAddress').textContent = `Endereço da Carteira: ${accounts[0]}`;
             } else {
-                document.getElementById('connectWalletText').textContent = 'Conecte sua carteira:';
-                document.getElementById('connectWalletButton').style.display = 'block';
+                connectWalletParagraph.style.display = 'block';
                 document.getElementById('disconnectWalletButton').style.display = 'none';
-                document.getElementById('walletStatus').textContent = 'Status: Desconectada';
                 document.getElementById('walletAddress').textContent = '';
             }
         }
     } catch (error) {
-        console.error("Erro ao atualizar interface:", error);
+        console.error("Erro ao verificar NFT:", error);
     }
 };
-
 // ...
 
 	
@@ -745,6 +740,6 @@ const atualizarInterface = async () => {
             }
         }
     } catch (error) {
-        console.error("Erro ao atualizar interface:", error);
+        console.error("Erro ao verificar NFT:", error);
     }
 };
